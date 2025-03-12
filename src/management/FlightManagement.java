@@ -1,5 +1,5 @@
 // FlightManagement.java
-// Manages multiple flights - add, view flights functionality.
+// Manages multiple flights - add, view, edit, and delete functionality.
 
 package management;
 
@@ -7,33 +7,55 @@ import models.Flight;
 import java.util.ArrayList;
 
 public class FlightManagement {
-    // List to store multiple flight objects
     private ArrayList<Flight> flights;
 
-    // Constructor - initializes the flights list
     public FlightManagement() {
         flights = new ArrayList<>();
     }
 
-    // Method to add a flight to the list
+    // Add a flight
     public void addFlight(Flight flight) {
         flights.add(flight);
         System.out.println("Flight added successfully: " + flight.getFlightNumber());
     }
 
-    // Method to display all flights clearly
+    // Display all flights
     public void displayAllFlights() {
         System.out.println("\nAvailable Flights:");
         System.out.println("------------------------------------");
 
-        // Check if flights are available or not
         if (flights.isEmpty()) {
             System.out.println("No flights available.");
         } else {
-            // Iterate over each flight and display details
             for (Flight flight : flights) {
                 flight.displayFlightDetails();
             }
         }
+    }
+
+    // Edit a flight's details
+    public boolean editFlight(String flightNumber, Flight updatedFlight) {
+        for (int i = 0; i < flights.size(); i++) {
+            if (flights.get(i).getFlightNumber().equalsIgnoreCase(flightNumber)) {
+                flights.set(i, updatedFlight);
+                System.out.println("Flight updated successfully.");
+                return true;
+            }
+        }
+        System.out.println("Flight not found.");
+        return false;
+    }
+
+    // Delete a flight by flight number
+    public boolean deleteFlight(String flightNumber) {
+        for (int i = 0; i < flights.size(); i++) {
+            if (flights.get(i).getFlightNumber().equalsIgnoreCase(flightNumber)) {
+                flights.remove(i);
+                System.out.println("Flight deleted successfully.");
+                return true;
+            }
+        }
+        System.out.println("Flight not found.");
+        return false;
     }
 }

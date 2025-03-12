@@ -1,28 +1,82 @@
 // Main.java
-// Entry point of our Airline Booking System
+// Entry point of Airline Booking System with Console Menu.
 
-import models.Flight;
 import management.FlightManagement;
+import models.Flight;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("====================================");
-        System.out.println("  Welcome to Airline Booking System  ");
-        System.out.println("====================================");
-
-        // Create FlightManagement object to manage flights
         FlightManagement flightManager = new FlightManagement();
+        Scanner scanner = new Scanner(System.in);
+        int choice;
 
-        // Add multiple flights
-        Flight flight1 = new Flight("AI101", "New York", "London", 250);
-        Flight flight2 = new Flight("AI102", "Mumbai", "Dubai", 200);
-        Flight flight3 = new Flight("AI103", "Tokyo", "Seoul", 180);
+        do {
+            // Displaying the main menu
+            System.out.println("\n==== Airline Booking System ====");
+            System.out.println("1. Add Flight");
+            System.out.println("2. View Flights");
+            System.out.println("3. Edit Flight");
+            System.out.println("4. Delete Flight");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline left-over
 
-        flightManager.addFlight(flight1);
-        flightManager.addFlight(flight2);
-        flightManager.addFlight(flight3);
+            switch (choice) {
+                case 1:
+                    // Add Flight
+                    System.out.print("Flight Number: ");
+                    String flightNo = scanner.nextLine();
+                    System.out.print("Origin: ");
+                    String origin = scanner.nextLine();
+                    System.out.print("Destination: ");
+                    String dest = scanner.nextLine();
+                    System.out.print("Seats: ");
+                    int seats = scanner.nextInt();
+                    scanner.nextLine(); // clear buffer
+                    Flight newFlight = new Flight(flightNo, origin, dest, seats);
+                    flightManager.addFlight(newFlight);
+                    break;
 
-        // Display all added flights
-        flightManager.displayAllFlights();
+                case 2:
+                    // View Flights
+                    flightManager.displayAllFlights();
+                    break;
+
+                case 3:
+                    // Edit Flight
+                    System.out.print("Enter Flight Number to edit: ");
+                    String editFlightNo = scanner.nextLine();
+                    System.out.print("New Origin: ");
+                    String newOrigin = scanner.nextLine();
+                    System.out.print("New Destination: ");
+                    String newDest = scanner.nextLine();
+                    System.out.print("New Seats: ");
+                    int newSeats = Integer.parseInt(scanner.nextLine());
+                    Flight updatedFlight = new Flight(editFlightNo, newOrigin, newDest, newSeats);
+                    flightManager.editFlight(editFlightNo, updatedFlight);
+                    break;
+
+                case 4:
+                    // Delete Flight
+                    System.out.print("Enter Flight Number to delete: ");
+                    String deleteFlightNo = scanner.nextLine();
+                    flightManager.deleteFlight(deleteFlightNo);
+                    break;
+
+                case 5:
+                    // Exit
+                    System.out.println("Exiting system. Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid option. Try again.");
+                    break;
+            }
+
+        } while (choice != 5);
+
+        scanner.close();
     }
 }
