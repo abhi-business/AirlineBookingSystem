@@ -1,66 +1,65 @@
-// PassengerManagement.java
-// Manages multiple passengers: add, view, edit, and delete.
-
 package management;
 
 import models.Passenger;
-import java.util.ArrayList;
+import java.sql.*;
 
 public class PassengerManagement {
-    private ArrayList<Passenger> passengers;
+    // Database connection details clearly
+    private final String url = "jdbc:mysql://localhost:3306/airline_db";
+    private final String username = "root";
+    private final String password = "root";
 
-    // Constructor
+    // Load JDBC Driver
     public PassengerManagement() {
-        passengers = new ArrayList<>();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found.");
+            e.printStackTrace();
+        }
     }
 
-    public ArrayList<Passenger> getPassengers() {
-        return passengers;
-    }
-
-    // Add passenger
+    // Add passenger to database clearly
     public void addPassenger(Passenger passenger) {
-        passengers.add(passenger);
-        System.out.println("Passenger added successfully: " + passenger.getPassengerId());
+        String sql = "INSERT INTO passengers (passenger_id, name, age, gender) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, passenger.getPassengerId());
+            stmt.setString(2, passenger.getName());
+            stmt.setInt(3, passenger.getAge());
+            stmt.setString(4, passenger.getGender());
+
+            stmt.executeUpdate();
+            System.out.println("✅ Passenger added to database!");
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error adding passenger!");
+            e.printStackTrace();
+        }
     }
 
-    // Display all passengers
+    // Display all passengers from database clearly
     public void displayAllPassengers() {
-        System.out.println("\nRegistered Passengers:");
-        System.out.println("-----------------------------------");
+        String sql = "SELECT * FROM passengers";
 
-        if (passengers.isEmpty()) {
-            System.out.println("No passengers registered.");
-        } else {
-            for (Passenger passenger : passengers) {
-                passenger.displayPassengerDetails();
-            }
-        }
-    }
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
-    // Edit passenger
-    public boolean editPassenger(String passengerId, Passenger updatedPassenger) {
-        for (int i = 0; i < passengers.size(); i++) {
-            if (passengers.get(i).getPassengerId().equalsIgnoreCase(passengerId)) {
-                passengers.set(i, updatedPassenger);
-                System.out.println("Passenger updated successfully.");
-                return true;
+            System.out.println("\n--- Passengers in Database ---");
+            while (rs.next()) {
+                System.out.println("Passenger ID : " + rs.getString("passenger_id"));
+                System.out.println("Name         : " + rs.getString("name"));
+                System.out.println("Age          : " + rs.getInt("age"));
+                System.out.println("Gender       : " + rs.getString("gender"));
+                System.out.println("--------------------------------");
             }
-        }
-        System.out.println("Passenger not found.");
-        return false;
-    }
 
-    // Delete passenger
-    public boolean deletePassenger(String passengerId) {
-        for (int i = 0; i < passengers.size(); i++) {
-            if (passengers.get(i).getPassengerId().equalsIgnoreCase(passengerId)) {
-                passengers.remove(i);
-                System.out.println("Passenger deleted successfully.");
-                return true;
-            }
+        } catch (SQLException e) {
+            System.out.println("❌ Error retrieving passengers!");
+            e.printStackTrace();
         }
-        System.out.println("Passenger not found.");
-        return false;
     }
 }

@@ -64,58 +64,41 @@ public class Main {
                     }
                     break;
 
-                // case 2:
-                //     // Passenger management submenu
-                //     System.out.println("\n--- Passenger Management ---");
-                //     System.out.println("1. Add Passenger");
-                //     System.out.println("2. View Passengers");
-                //     System.out.println("3. Edit Passenger");
-                //     System.out.println("4. Delete Passenger");
-                //     System.out.print("Choose option: ");
-                //     int passengerChoice = scanner.nextInt();
-                //     scanner.nextLine();
+                    case 2:
+                    System.out.println("\n--- Passenger Management ---");
+                    System.out.println("1. Add Passenger");
+                    System.out.println("2. View Passengers");
+                    System.out.print("Choose option: ");
+                    int passengerChoice = scanner.nextInt();
+                    scanner.nextLine();
 
-                //     switch (passengerChoice) {
-                //         case 1:
-                //             System.out.print("Passenger ID: ");
-                //             String pid = scanner.nextLine();
-                //             System.out.print("Name: ");
-                //             String name = scanner.nextLine();
-                //             System.out.print("Age: ");
-                //             int age = scanner.nextInt();
-                //             scanner.nextLine();  // buffer clear
-                //             System.out.print("Gender: ");
-                //             String gender = scanner.nextLine();
-                //             passengerManager.addPassenger(new Passenger(pid, name, age, gender));
-                //             break;
+                    switch (passengerChoice) {
+                        case 1:
+                            // Add passenger to MySQL clearly
+                            System.out.print("Passenger ID: ");
+                            String pid = scanner.nextLine();
+                            System.out.print("Name: ");
+                            String name = scanner.nextLine();
+                            System.out.print("Age: ");
+                            int age = scanner.nextInt();
+                            scanner.nextLine();
+                            System.out.print("Gender: ");
+                            String gender = scanner.nextLine();
 
-                //         case 2:
-                //             passengerManager.displayAllPassengers();
-                //             break;
+                            Passenger newPassenger = new Passenger(pid, name, age, gender);
+                            passengerManager.addPassenger(newPassenger);
+                            break;
 
-                //         case 3:
-                //             System.out.print("Enter Passenger ID to edit: ");
-                //             String editPid = scanner.nextLine();
-                //             System.out.print("New Name: ");
-                //             String newName = scanner.nextLine();
-                //             System.out.print("New Age: ");
-                //             int newAge = scanner.nextInt();
-                //             scanner.nextLine(); // buffer clear
-                //             System.out.print("New Gender: ");
-                //             String newGender = scanner.nextLine();
-                //             passengerManager.editPassenger(editPid, new Passenger(editPid, newName, newAge, newGender));
-                //             break;
+                        case 2:
+                            // View passengers from MySQL clearly
+                            passengerManager.displayAllPassengers();
+                            break;
 
-                //         case 4:
-                //             System.out.print("Enter Passenger ID to delete: ");
-                //             String deletePid = scanner.nextLine();
-                //             passengerManager.deletePassenger(deletePid);
-                //             break;
+                        default:
+                            System.out.println("Invalid passenger option.");
+                    }
+                    break;
 
-                //         default:
-                //             System.out.println("Invalid passenger option.");
-                //     }
-                //     break;
 
                 //     case 3:
                 //     // Ticket booking submenu
