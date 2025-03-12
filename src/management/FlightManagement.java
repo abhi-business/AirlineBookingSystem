@@ -13,6 +13,10 @@ public class FlightManagement {
         flights = new ArrayList<>();
     }
 
+    public ArrayList<Flight> getFlights() {
+        return flights;
+    }
+
     // Add a flight
     public void addFlight(Flight flight) {
         flights.add(flight);

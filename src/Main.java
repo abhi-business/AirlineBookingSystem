@@ -3,6 +3,7 @@
 
 import management.FlightManagement;
 import management.PassengerManagement;
+import management.BookingManagement;
 import models.Flight;
 import models.Passenger;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ public class Main {
     public static void main(String[] args) {
         FlightManagement flightManager = new FlightManagement();
         PassengerManagement passengerManager = new PassengerManagement();
+        BookingManagement bookingManager = new BookingManagement();
         Scanner scanner = new Scanner(System.in);
         int choice;
 
@@ -19,7 +21,8 @@ public class Main {
             System.out.println("\n==== Airline Booking System ====");
             System.out.println("1. Flight Management");
             System.out.println("2. Passenger Management");
-            System.out.println("3. Exit");
+            System.out.println("3. Ticket Booking");
+            System.out.println("4. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
@@ -143,7 +146,64 @@ public class Main {
                     }
                     break;
 
-                case 3:
+                    case 3:
+                    // Ticket booking submenu
+                    System.out.println("\n--- Ticket Booking ---");
+                    System.out.println("1. Book Ticket");
+                    System.out.println("2. View Booked Tickets");
+                    System.out.print("Choose option: ");
+                    int bookingChoice = scanner.nextInt();
+                    scanner.nextLine();
+                
+                    switch (bookingChoice) {
+                        case 1:
+                            System.out.print("Ticket ID: ");
+                            String ticketId = scanner.nextLine();
+                
+                            System.out.print("Enter Passenger ID: ");
+                            String passengerId = scanner.nextLine();
+                            Passenger passenger = null;
+                            for (Passenger p : passengerManager.getPassengers()) {
+                                if (p.getPassengerId().equalsIgnoreCase(passengerId)) {
+                                    passenger = p;
+                                    break;
+                                }
+                            }
+                
+                            if (passenger == null) {
+                                System.out.println("Passenger not found.");
+                                break;
+                            }
+                
+                            System.out.print("Enter Flight Number: ");
+                            String flightNo = scanner.nextLine();
+                            Flight flight = null;
+                            for (Flight f : flightManager.getFlights()) {
+                                if (f.getFlightNumber().equalsIgnoreCase(flightNo)) {
+                                    flight = f;
+                                    break;
+                                }
+                            }
+                
+                            if (flight == null) {
+                                System.out.println("Flight not found.");
+                                break;
+                            }
+                
+                            bookingManager.bookTicket(ticketId, passenger, flight);
+                            break;
+                
+                        case 2:
+                            bookingManager.displayAllTickets();
+                            break;
+                
+                        default:
+                            System.out.println("Invalid booking option.");
+                    }
+                    break;
+                
+
+                case 4:
                     System.out.println("Exiting the system, goodbye!");
                     break;
 

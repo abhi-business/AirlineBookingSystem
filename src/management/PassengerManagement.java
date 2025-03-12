@@ -14,6 +14,10 @@ public class PassengerManagement {
         passengers = new ArrayList<>();
     }
 
+    public ArrayList<Passenger> getPassengers() {
+        return passengers;
+    }
+
     // Add passenger
     public void addPassenger(Passenger passenger) {
         passengers.add(passenger);
