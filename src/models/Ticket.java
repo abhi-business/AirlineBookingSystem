@@ -15,6 +15,11 @@ public class Ticket {
         this.flight = flight;
     }
 
+    public String getTicketId() {
+        return ticketId;
+    }
+    
+
     // Display ticket details clearly
     public void displayTicketDetails() {
         System.out.println("\nTicket ID : " + ticketId);

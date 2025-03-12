@@ -36,4 +36,18 @@ public class BookingManagement {
             }
         }
     }
+
+    // Method to cancel ticket by ID
+    public boolean cancelTicket(String ticketId) {
+        for (int i = 0; i < tickets.size(); i++) {
+            if (tickets.get(i).getTicketId().equalsIgnoreCase(ticketId)) {
+                tickets.remove(i);
+                System.out.println("Ticket cancelled successfully.");
+                return true;
+            }
+        }
+        System.out.println("Ticket not found.");
+        return false;
+    }
+
 }

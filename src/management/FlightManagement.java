@@ -1,65 +1,66 @@
-// FlightManagement.java
-// Manages multiple flights - add, view, edit, and delete functionality.
-
 package management;
 
 import models.Flight;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class FlightManagement {
-    private ArrayList<Flight> flights;
+    // Database credentials clearly
+    private final String url = "jdbc:mysql://localhost:3306/airline_db";
+    private final String username = "root";
+    private final String password = "root";
 
+    // Constructor: Load JDBC Driver
     public FlightManagement() {
-        flights = new ArrayList<>();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found.");
+            e.printStackTrace();
+        }
     }
 
-    public ArrayList<Flight> getFlights() {
-        return flights;
-    }
-
-    // Add a flight
+    // Add a flight to database clearly
     public void addFlight(Flight flight) {
-        flights.add(flight);
-        System.out.println("Flight added successfully: " + flight.getFlightNumber());
+        String sql = "INSERT INTO flights (flight_number, origin, destination, seats) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, flight.getFlightNumber());
+            stmt.setString(2, flight.getOrigin());
+            stmt.setString(3, flight.getDestination());
+            stmt.setInt(4, flight.getSeats());
+
+            stmt.executeUpdate();
+            System.out.println("✅ Flight added to database!");
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error adding flight!");
+            e.printStackTrace();
+        }
     }
 
-    // Display all flights
+    // Display all flights from database clearly
     public void displayAllFlights() {
-        System.out.println("\nAvailable Flights:");
-        System.out.println("------------------------------------");
+        String sql = "SELECT * FROM flights";
 
-        if (flights.isEmpty()) {
-            System.out.println("No flights available.");
-        } else {
-            for (Flight flight : flights) {
-                flight.displayFlightDetails();
-            }
-        }
-    }
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
-    // Edit a flight's details
-    public boolean editFlight(String flightNumber, Flight updatedFlight) {
-        for (int i = 0; i < flights.size(); i++) {
-            if (flights.get(i).getFlightNumber().equalsIgnoreCase(flightNumber)) {
-                flights.set(i, updatedFlight);
-                System.out.println("Flight updated successfully.");
-                return true;
+            System.out.println("\n--- Flights in Database ---");
+            while (rs.next()) {
+                System.out.println("Flight Number : " + rs.getString("flight_number"));
+                System.out.println("Origin        : " + rs.getString("origin"));
+                System.out.println("Destination   : " + rs.getString("destination"));
+                System.out.println("Seats         : " + rs.getInt("seats"));
+                System.out.println("------------------------------");
             }
-        }
-        System.out.println("Flight not found.");
-        return false;
-    }
 
-    // Delete a flight by flight number
-    public boolean deleteFlight(String flightNumber) {
-        for (int i = 0; i < flights.size(); i++) {
-            if (flights.get(i).getFlightNumber().equalsIgnoreCase(flightNumber)) {
-                flights.remove(i);
-                System.out.println("Flight deleted successfully.");
-                return true;
-            }
+        } catch (SQLException e) {
+            System.out.println("❌ Error retrieving flights!");
+            e.printStackTrace();
         }
-        System.out.println("Flight not found.");
-        return false;
     }
 }
