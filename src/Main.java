@@ -1,8 +1,8 @@
 // Main.java
 // Entry point of our Airline Booking System
 
-// Import Flight class from the models package
 import models.Flight;
+import management.FlightManagement;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,12 +10,19 @@ public class Main {
         System.out.println("  Welcome to Airline Booking System  ");
         System.out.println("====================================");
 
-        // Creating our first flight object
-        Flight flight1 = new Flight("AI101", "New York", "London", 250);
+        // Create FlightManagement object to manage flights
+        FlightManagement flightManager = new FlightManagement();
 
-        // Display the details of flight1
-        System.out.println("\nFlight Details:");
-        System.out.println("----------------------------------");
-        flight1.displayFlightDetails();
+        // Add multiple flights
+        Flight flight1 = new Flight("AI101", "New York", "London", 250);
+        Flight flight2 = new Flight("AI102", "Mumbai", "Dubai", 200);
+        Flight flight3 = new Flight("AI103", "Tokyo", "Seoul", 180);
+
+        flightManager.addFlight(flight1);
+        flightManager.addFlight(flight2);
+        flightManager.addFlight(flight3);
+
+        // Display all added flights
+        flightManager.displayAllFlights();
     }
 }
