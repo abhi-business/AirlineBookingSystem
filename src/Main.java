@@ -49,22 +49,22 @@ public class Main {
                             System.out.print("Seats: ");
                             int seats = scanner.nextInt();
                             scanner.nextLine();
-                
+
                             Flight newFlight = new Flight(flightNo, origin, dest, seats);
                             flightManager.addFlight(newFlight);
                             break;
-                
+
                         case 2:
                             // Viewing Flights from MySQL clearly
                             flightManager.displayAllFlights();
                             break;
-                
+
                         default:
                             System.out.println("Invalid flight option.");
                     }
                     break;
 
-                    case 2:
+                case 2:
                     System.out.println("\n--- Passenger Management ---");
                     System.out.println("1. Add Passenger");
                     System.out.println("2. View Passengers");
@@ -99,70 +99,44 @@ public class Main {
                     }
                     break;
 
+                case 3:
+                    // Ticket Booking Menu (Main.java)
+                    System.out.println("\n--- Ticket Booking ---");
+                    System.out.println("1. Book Ticket");
+                    System.out.println("2. View Tickets");
+                    System.out.println("3. Cancel Ticket");
+                    System.out.print("Enter choice: ");
+                    int bookingChoice = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (bookingChoice) {
+                        case 1:
+                            // Book Ticket clearly
+                            System.out.print("Enter Ticket ID: ");
+                            String ticketId = scanner.nextLine();
 
-                //     case 3:
-                //     // Ticket booking submenu
-                //     System.out.println("\n--- Ticket Booking ---");
-                //     System.out.println("1. Book Ticket");
-                //     System.out.println("2. View Booked Tickets");
-                //     System.out.println("3. Cancel Ticket");
-                //     System.out.print("Choose option: ");
-                //     int bookingChoice = scanner.nextInt();
-                //     scanner.nextLine();
-                
-                //     switch (bookingChoice) {
-                //         case 1:
-                //             System.out.print("Ticket ID: ");
-                //             String ticketId = scanner.nextLine();
-                
-                //             System.out.print("Enter Passenger ID: ");
-                //             String passengerId = scanner.nextLine();
-                //             Passenger passenger = null;
-                //             for (Passenger p : passengerManager.getPassengers()) {
-                //                 if (p.getPassengerId().equalsIgnoreCase(passengerId)) {
-                //                     passenger = p;
-                //                     break;
-                //                 }
-                //             }
-                
-                //             if (passenger == null) {
-                //                 System.out.println("Passenger not found.");
-                //                 break;
-                //             }
-                
-                //             System.out.print("Enter Flight Number: ");
-                //             String flightNo = scanner.nextLine();
-                //             Flight flight = null;
-                //             for (Flight f : flightManager.getFlights()) {
-                //                 if (f.getFlightNumber().equalsIgnoreCase(flightNo)) {
-                //                     flight = f;
-                //                     break;
-                //                 }
-                //             }
-                
-                //             if (flight == null) {
-                //                 System.out.println("Flight not found.");
-                //                 break;
-                //             }
-                
-                //             bookingManager.bookTicket(ticketId, passenger, flight);
-                //             break;
-                
-                //         case 2:
-                //             bookingManager.displayAllTickets();
-                //             break;
-                        
-                //         case 3:
-                //             System.out.print("Enter Ticket ID to cancel: ");
-                //             String cancelTicketId = scanner.nextLine();
-                //             bookingManager.cancelTicket(cancelTicketId);
-                //             break;
-                
-                //         default:
-                //             System.out.println("Invalid booking option.");
-                //     }
-                //     break;
-                
+                            System.out.print("Enter Passenger ID: ");
+                            String passengerId = scanner.nextLine();
+
+                            System.out.print("Enter Flight Number: ");
+                            String flightNumber = scanner.nextLine();
+
+                            bookingManager.bookTicket(ticketId, passengerId, flightNumber);
+                            break;
+
+                        case 2:
+                            bookingManager.displayAllTickets();
+                            break;
+
+                        case 3:
+                            System.out.print("Enter Ticket ID to cancel: ");
+                            String cancelTicketId = scanner.nextLine();
+                            bookingManager.cancelTicket(cancelTicketId);
+                            break;
+                        default:
+                            System.out.println("Invalid booking option.");
+                            break;
+                    }
+                    break;
 
                 case 4:
                     System.out.println("Exiting the system, goodbye!");
