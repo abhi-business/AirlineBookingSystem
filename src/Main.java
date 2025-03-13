@@ -100,7 +100,6 @@ public class Main {
                     break;
 
                 case 3:
-                    // Ticket Booking Menu (Main.java)
                     System.out.println("\n--- Ticket Booking ---");
                     System.out.println("1. Book Ticket");
                     System.out.println("2. View Tickets");
@@ -108,19 +107,24 @@ public class Main {
                     System.out.print("Enter choice: ");
                     int bookingChoice = scanner.nextInt();
                     scanner.nextLine();
+
                     switch (bookingChoice) {
                         case 1:
-                            // Book Ticket clearly
-                            System.out.print("Enter Ticket ID: ");
+                            // Book Ticket clearly with seat number
+                            System.out.print("Ticket ID: ");
                             String ticketId = scanner.nextLine();
 
-                            System.out.print("Enter Passenger ID: ");
+                            System.out.print("Passenger ID: ");
                             String passengerId = scanner.nextLine();
 
-                            System.out.print("Enter Flight Number: ");
+                            System.out.print("Flight Number: ");
                             String flightNumber = scanner.nextLine();
 
-                            bookingManager.bookTicket(ticketId, passengerId, flightNumber);
+                            System.out.print("Seat Number: ");
+                            int seatNumber = scanner.nextInt();
+                            scanner.nextLine();
+
+                            bookingManager.bookTicket(ticketId, passengerId, flightNumber, seatNumber);
                             break;
 
                         case 2:
@@ -128,13 +132,13 @@ public class Main {
                             break;
 
                         case 3:
-                            System.out.print("Enter Ticket ID to cancel: ");
+                            System.out.print("Ticket ID to cancel: ");
                             String cancelTicketId = scanner.nextLine();
                             bookingManager.cancelTicket(cancelTicketId);
                             break;
+
                         default:
-                            System.out.println("Invalid booking option.");
-                            break;
+                            System.out.println("Invalid option clearly chosen.");
                     }
                     break;
 
